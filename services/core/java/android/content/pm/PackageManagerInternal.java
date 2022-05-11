@@ -926,76 +926,8 @@ public abstract class PackageManagerInternal {
     public abstract void migrateLegacyObbData();
 
     /**
-     * Writes all package manager settings to disk. If {@code async} is {@code true}, the
-     * settings are written at some point in the future. Otherwise, the call blocks until
-     * the settings have been written.
+     * Get installed SDK version of the package
+     * @param pkg package for which to retrieve the installed sdk version
      */
-    public abstract void writeSettings(boolean async);
-
-    /**
-     * Writes all permission settings for the given set of users to disk. If {@code async}
-     * is {@code true}, the settings are written at some point in the future. Otherwise,
-     * the call blocks until the settings have been written.
-     */
-    public abstract void writePermissionSettings(@NonNull @UserIdInt int[] userIds, boolean async);
-
-    /**
-     * Returns {@code true} if the caller is the installer of record for the given package.
-     * Otherwise, {@code false}.
-     */
-    public abstract boolean isCallerInstallerOfRecord(
-            @NonNull AndroidPackage pkg, int callingUid);
-
-    /** Returns whether or not permissions need to be upgraded for the given user */
-    public abstract boolean isPermissionUpgradeNeeded(@UserIdInt int userId);
-
-    /** Sets the enforcement of reading external storage */
-    public abstract void setReadExternalStorageEnforced(boolean enforced);
-
-    /**
-     * Allows the integrity component to respond to the
-     * {@link Intent#ACTION_PACKAGE_NEEDS_INTEGRITY_VERIFICATION package verification
-     * broadcast} to respond to the package manager. The response must include
-     * the {@code verificationCode} which is one of
-     * {@link #INTEGRITY_VERIFICATION_ALLOW} and {@link #INTEGRITY_VERIFICATION_REJECT}.
-     *
-     * @param verificationId pending package identifier as passed via the
-     *            {@link PackageManager#EXTRA_VERIFICATION_ID} Intent extra.
-     * @param verificationResult either {@link #INTEGRITY_VERIFICATION_ALLOW}
-     *            or {@link #INTEGRITY_VERIFICATION_REJECT}.
-     */
-    public abstract void setIntegrityVerificationResult(int verificationId,
-            @IntegrityVerificationResult int verificationResult);
-
-    /**
-     * Returns MIME types contained in {@code mimeGroup} from {@code packageName} package
-     */
-    public abstract List<String> getMimeGroup(String packageName, String mimeGroup);
-
-    /**
-     * Toggles visibility logging to help in debugging the app enumeration feature.
-     * @param packageName the package name that should begin logging
-     * @param enabled true if visibility blocks should be logged
-     */
-    public abstract void setVisibilityLogging(String packageName, boolean enabled);
-
-    /**
-     * Returns if a package name is a valid system package.
-     */
-    public abstract boolean isSystemPackage(@NonNull String packageName);
-
-    /**
-     * Unblocks uninstall for all packages for the user.
-     */
-    public abstract void clearBlockUninstallForUser(@UserIdInt int userId);
-
-    /**
-     * Unsuspends all packages suspended by the given package for the user.
-     */
-    public abstract void unsuspendForSuspendingPackage(String suspendingPackage, int userId);
-
-    /**
-     * Returns {@code true} if the package is suspending any packages for the user.
-     */
-    public abstract boolean isSuspendingAnyPackages(String suspendingPackage, int userId);
+    public abstract int getInstalledSdkVersion(PackageParser.Package pkg);
 }
