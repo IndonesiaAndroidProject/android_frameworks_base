@@ -7077,13 +7077,10 @@ public class NotificationManagerService extends SystemService {
         boolean hasValidVibrate = false;
         boolean hasValidSound = false;
         boolean sentAccessibilityEvent = false;
-
-        // If the notification will appear in the status bar, it should send an accessibility event
-        final boolean suppressedByDnd = record.isIntercepted()
-                && (record.getSuppressedVisualEffects() & SUPPRESSED_EFFECT_STATUS_BAR) != 0;
-        if (!record.isUpdate
-                && record.getImportance() > IMPORTANCE_MIN
-                && !suppressedByDnd) {
+        // If the notification will appear in the status bar, it should send an accessibility
+        // event
+        if (!record.isUpdate && record.getImportance() > IMPORTANCE_MIN
+                && isNotificationForCurrentUser(record)) {
             sendAccessibilityEvent(record);
             sentAccessibilityEvent = true;
         }
